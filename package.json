@@ -1,0 +1,30 @@
+{
+  "name": "air-air",
+  "version": "0.0.0",
+  "description": "node.js library for the AirAir Portable Air Quality Detector",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheThingSystem/node-air-air.git"
+  },
+  "keywords": [
+    "air-air"
+  ],
+  "author": "Sandeep Mistry <sandeep.mistry@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheThingSystem/node-air-air/issues"
+  },
+  "homepage": "https://github.com/TheThingSystem/node-air-air",
+  "devDependencies": {
+    "jshint": "~2.4.3",
+    "bleno": "~0.1.2",
+    "async": "~0.7.0"
+  },
+  "dependencies": {
+    "noble-device": "git://github.com/sandeepmistry/noble-device"
+  }
+}
