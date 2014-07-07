@@ -1,6 +1,7 @@
-var async = require('async');
-
-var AirAir = require('./index');
+var async  = require('async')
+  , util   = require('util')
+  , AirAir = require('./index')
+  ;
 
 AirAir.discover(function(sensor) {
   console.log('found ' + sensor.uuid);
@@ -18,7 +19,7 @@ AirAir.discover(function(sensor) {
       function(callback) {
         console.log('readValues');
         sensor.readValues(function(err, result) {
-          if (!!err) console.log('\tvalues error: ' + err.message); else console.log('\tvalues = ' + JSON.stringify(result));
+          if (!!err) console.log('\tvalues error: ' + err.message); else console.log(util.inspect(result, { depth: null }));
           callback();
         });
       },
@@ -40,3 +41,4 @@ AirAir.discover(function(sensor) {
     ]
   );
 });
+
