@@ -1,8 +1,8 @@
 var NobleDevice = require('noble-device');
 
                          
-var SERVICE_UUID       = '0000ffe000001000800000805f9b34fb';
-var VOLTAGE_UUID       = '0000ffe000001000800000805f9b34fb';
+var SERVICE_UUID = 'ffe0';
+var SENSOR_UUID  = 'ffe1';
 
 var AirAir = function(peripheral) {
   NobleDevice.call(this, peripheral);
@@ -11,15 +11,14 @@ var AirAir = function(peripheral) {
 AirAir.SCAN_UUIDS = [SERVICE_UUID];
 
 AirAir.is = function(peripheral) {
-console.log(require('util').inspect(peripheral, { depth: null }));
   return (peripheral.advertisement.localName === 'AIRAIR');
 };
 
 NobleDevice.Util.inherits(AirAir, NobleDevice);
-NobleDevice.Util.mixin(AirAir, NobleDevice.DeviceInformationService);
+// NobleDevice.Util.mixin(AirAir, NobleDevice.DeviceInformationService);
 
 AirAir.prototype.readValues = function(callback) {
-  this.readUInt16LECharacteristic(SERVICE_UUID, VOLTAGE_UUID, function(bytes) {
+  this.readUInt16LECharacteristic(SERVICE_UUID, SENSOR_UUID, function(bytes) {
     var data, i, j, results;
 
     if (bytes.length != 16) return callback(new Error('wrong length: ' + bytes.length));
@@ -67,3 +66,75 @@ AirAir.prototype.writeDeviceName = function(deviceName, callback) {
 };
 
 module.exports = AirAir;
+return;
+
+/*
+// stateChange: poweredOn
+// connect: ... (AIRAIR)
+// RSSI update: -68 (AIRAIR)
+{ "...": 
+  { localName: "AIRAIR",
+{ '1800': 
+   { name: 'Generic Access',
+     type: 'org.bluetooth.service.generic_access',
+     characteristics: 
+      { '2a00': 
+         { name: 'Device Name',
+           type: 'org.bluetooth.characteristic.gap.device_name',
+           properties: [ 'read' ],
+           descriptors: {},
+           value: 'AIRAIR' },
+        '2a01': 
+         { name: 'Appearance',
+           type: 'org.bluetooth.characteristic.gap.appearance',
+           properties: [ 'read' ],
+           descriptors: {},
+           value: '0000' },
+        '2a02': 
+         { name: 'Peripheral Privacy Flag',
+           type: 'org.bluetooth.characteristic.gap.peripheral_privacy_flag',
+           properties: [ 'read', 'write' ],
+           descriptors: {},
+           value: '' },
+        '2a03': 
+         { name: 'Reconnection Address',
+           type: 'org.bluetooth.characteristic.gap.reconnection_address',
+           properties: [ 'read', 'write' ],
+           descriptors: {},
+           value: '000000000000' },
+        '2a04': 
+         { name: 'Peripheral Preferred Connection Parameters',
+           type: 'org.bluetooth.characteristic.gap.peripheral_preferred_connection_parameters',
+           properties: [ 'read' ],
+           descriptors: {},
+           value: '5000a0000000e803' } } },
+  '1801': 
+   { name: 'Generic Attribute',
+     type: 'org.bluetooth.service.generic_attribute',
+     characteristics: 
+      { '2a05': 
+         { name: 'Service Changed',
+           type: 'org.bluetooth.characteristic.gatt.service_changed',
+           properties: [ 'indicate' ],
+           descriptors: 
+            { '2902': 
+               { name: 'Client Characteristic Configuration',
+                 type: 'org.bluetooth.descriptor.gatt.client_characteristic_configuration' } } } } },
+  ffe0: 
+   { name: null,
+     type: null,
+     characteristics: 
+      { ffe1: 
+         { name: null,
+           type: null,
+           properties: [ 'read', 'writeWithoutResponse', 'notify' ],
+           descriptors: 
+            { '2901': 
+               { name: 'Characteristic User Description',
+                 type: 'org.bluetooth.descriptor.gatt.characteristic_user_description' },
+              '2902': 
+               { name: 'Client Characteristic Configuration',
+                 type: 'org.bluetooth.descriptor.gatt.client_characteristic_configuration' } } } } } }
+  }
+}
+ */
