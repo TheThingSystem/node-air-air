@@ -3,8 +3,6 @@ node-air-air
 
 node.js library for the Air.Air! Portal Air Quality Detector
 
-**THIS IS A WORK IN PROGRESS! PLEASE DO NOT USE UNTIL IT IS ADDED TO NPM**
-
 Install
 -------
 

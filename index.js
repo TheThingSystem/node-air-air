@@ -43,6 +43,7 @@ var listener = function(self, bytes, callback) {
   if (results.protocolVersion !== 0x01) return callback(new Error('wrong version: ' + results.protocolVersion));
   if (results.infoType !== 0xa1) return callback(new Error('unexpected data type: ' + results.infoType));
   if (results.kValue === 0) return callback(new Error('unexpected K value: ' + results.kValue));
+// reportedly micro-grams / cubic meter
   results.concentration = ((results.densityVout - results.voc) * 100) / results.kValue;
 
   for (i = 0, j = 0; j < 15; j++) i += data[j];
