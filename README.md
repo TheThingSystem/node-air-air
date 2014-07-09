@@ -27,7 +27,10 @@ __Disconnect__
 
 __Reading__
 
-    sensor.readValues(callback(err, result));
+    sensor.on('sensorDataChange', function(err, results) {
+    });
+
+    sensor.notifySensorData(callback);
 
 __Device Name__
 

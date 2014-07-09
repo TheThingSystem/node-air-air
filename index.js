@@ -16,7 +16,7 @@ AirAir.is = function(peripheral) {
 
 NobleDevice.Util.inherits(AirAir, NobleDevice);
 
-var listener = function(self, bytes, callback) {
+AirAir.prototype.convertSensorData = function(bytes, callback) {
   var data, i, j, results;
 
   console.log(bytes);
@@ -52,10 +52,19 @@ var listener = function(self, bytes, callback) {
   callback(null, results);
 };
 
-AirAir.prototype.readValues = function(callback) {
-  this.notifyCharacteristic(SERVICE_UUID, SENSOR_UUID, true,
-                            function(bytes) { listener(this, bytes, callback); },
-                            function() { });
+
+AirAir.prototype.onSensorDataChange = function(data) {
+  this.convertSensorData(data, function(err, results) {
+    this.emit('sensorDataChange', err, results);
+  }.bind(this));
+};
+
+AirAir.prototype.notifySensorData = function(callback) {
+  this.notifyCharacteristic(SERVICE_UUID, SENSOR_UUID, true, this.onSensorDataChange.bind(this), callback);
+};
+
+AirAir.prototype.unnotifySensorData = function(callback) {
+  this.notifyCharacteristic(SERVICE_UUID, SENSOR_UUID, false, this.onSensorDataChange.bind(this), callback);
 };
 
 AirAir.prototype.writeDeviceName = function(deviceName, callback) {

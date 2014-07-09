@@ -11,17 +11,25 @@ AirAir.discover(function(sensor) {
     process.exit(0);
   });
 
+  sensor.on('sensorDataChange', function(err, results) {
+    if (!!err) console.log('\tvalues error: ' + err.message); else console.log(util.inspect(results, { depth: null }));
+  });
+
   async.series([
       function(callback) {
         console.log('connectAndSetup');
         sensor.connectAndSetup(callback);
       },
       function(callback) {
-        console.log('readValues');
-        sensor.readValues(function(err, result) {
-          if (!!err) console.log('\tvalues error: ' + err.message); else console.log(util.inspect(result, { depth: null }));
-          callback();
-        });
+        console.log('notifySensorData');
+        sensor.notifySensorData(callback);
+      },
+      function(callback) {
+        setTimeout(callback, 60000);
+      },
+      function(callback) {
+        console.log('unnotifySensorData');
+        sensor.unnotifySensorData(callback);
       },
      function(callback) {
         console.log('readDeviceName');
